@@ -22,7 +22,8 @@ module.exports = {
   output: {
     path: resolve('../dist'),
     publicPath: config.get('fe.publicPath'),
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash:8].chunk.js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json', '.md'],

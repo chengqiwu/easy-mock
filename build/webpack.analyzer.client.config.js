@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const base = require('./webpack.base.config')
 
@@ -15,7 +16,7 @@ const config = merge(base, {
       'vue-router',
       'axios',
       'brace',
-      'iview'
+      'iview',
     ]
   },
   devtool: false,
@@ -31,13 +32,14 @@ const config = merge(base, {
       minChunks: Infinity
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
+      name: 'manifest',
     }),
     new LodashModuleReplacementPlugin({
       'collections': true,
       'paths': true
     }),
-    new VueSSRClientPlugin()
+    new VueSSRClientPlugin(),
+    new BundleAnalyzerPlugin({ analyzerPort: 8919 }),
   ]
 })
 

@@ -16,18 +16,30 @@ const util = require('./util')
 const logger = require('./util/logger')
 const middleware = require('./middlewares')
 const routerConfig = require('./router-config')
+const compress = require('koa-compress')
 
 const app = module.exports = new Koa()
 const uploadConf = config.get('upload')
 const jwtSecret = config.get('jwt.secret')
-const compress = require('koa-compress')
 
 util.init()
 onerror(app)
 validate(app)
 
 app
-  .use(compress({}))
+  .use(compress({
+    // filter (content_type) {
+    //   return /text/i.test(content_type)
+    // },
+    threshold: 100,
+    gzip: {
+      flush: require('zlib').constants.Z_SYNC_FLUSH
+    },
+    deflate: {
+      flush: require('zlib').constants.Z_SYNC_FLUSH,
+    },
+    br: false // disable brotli
+  }))
   .use(middleware.ipFilter)
   .use(favicon(path.join(__dirname, '/public/images/icon.png')))
   .use(serve('/dist', './dist'))
