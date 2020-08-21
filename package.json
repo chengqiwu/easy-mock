@@ -15,6 +15,7 @@
     "build": "cross-env NODE_ENV=production npm run build:dev",
     "build:dev": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "webpack --config build/webpack.client.config.js --progress --hide-modules",
+    "analyzer:client": "webpack --config build/webpack.analyzer.client.config.js --progress --hide-modules",
     "build:server": "webpack --config build/webpack.server.config.js --progress --hide-modules"
   },
   "author": "Chuangker",
@@ -39,6 +40,7 @@
     "jszip": "^3.1.5",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
+    "koa-compress": "^5.0.1",
     "koa-favicon": "^2.0.0",
     "koa-jwt": "^3.3.0",
     "koa-onerror": "^4.0.0",
@@ -96,6 +98,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "jest": "^22.1.1",
     "koa-webpack-middleware": "^1.0.7",
+    "lodash-webpack-plugin": "^0.11.5",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-attrs": "^1.2.1",
     "nodemon": "^1.14.11",
@@ -116,6 +119,7 @@
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-hot-middleware": "^2.21.0",
     "webpack-merge": "^4.1.1",
     "webpack-node-externals": "^1.6.0"

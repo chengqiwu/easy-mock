@@ -1,42 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import docs from 'pages/docs'
-import login from 'pages/login'
-import group from 'pages/group'
-import editor from 'pages/editor'
-import project from 'pages/project'
-import profile from 'pages/profile'
-import createProject from 'pages/new'
-import logOut from 'components/log-out'
-import dashboard from 'pages/dashboard'
-import detail from 'pages/project-detail'
-import layout from 'components/layout/index'
-
 Vue.use(Router)
 
 export function createRouter () {
   const router = new Router({
     mode: 'history',
     routes: [
-      { path: '/login', component: login },
-      { path: '/log-out', component: logOut },
+      { path: '/login', name: 'login', component: () => import('pages/login') },
+      { path: '/log-out', name: 'logOut', component: () => import('components/log-out') },
       {
         path: '/',
-        component: layout,
+        name: 'layout',
+        component: () => import('components/layout/index'),
         children: [
-          { path: '/', component: project },
-          { path: 'workbench', component: project },
-          { path: 'group/:id', component: project },
-          { path: 'group', component: group },
-          { path: 'docs', component: docs },
-          { path: 'changelog', component: docs },
-          { path: 'dashboard', component: dashboard },
-          { path: 'profile', component: profile },
-          { path: 'new', component: createProject },
-          { path: 'project/:id', component: detail },
-          { path: 'editor/:projectId', component: editor },
-          { path: 'editor/:projectId/:id', component: editor }
+          { path: '/', name: 'project', component: () => import('pages/project') },
+          { path: 'workbench', name: 'project', component: () => import('pages/project') },
+          { path: 'group/:id', name: 'project', component: () => import('pages/project') },
+          { path: 'group', name: 'group', component: () => import('pages/group') },
+          { path: 'docs', name: 'docs', component: () => import('pages/docs') },
+          { path: 'changelog', name: 'docs', component: () => import('pages/docs') },
+          { path: 'dashboard', name: 'dashboard', component: () => import('pages/dashboard') },
+          { path: 'profile', name: 'profile', component: () => import('pages/profile') },
+          { path: 'new', name: 'new', component: () => import('pages/new') },
+          { path: 'project/:id', name: 'detail', component: () => import('pages/project-detail') },
+          { path: 'editor/:projectId', name: 'editor', component: () => import('pages/editor') },
+          { path: 'editor/:projectId/:id', name: 'editor', component: () => import('pages/editor') }
         ]
       }
     ]

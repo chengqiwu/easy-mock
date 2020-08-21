@@ -3,13 +3,23 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const base = require('./webpack.base.config')
 
 const config = merge(base, {
   entry: {
-    app: './views/entry/client.js'
+    app: './views/entry/client.js',
+    vendor: [
+      'vue',
+      'axios',
+      'vue-router',
+      'iview',
+      'brace',
+      'js-beautify'
+    ]
   },
+  devtool: false,
   plugins: [
     // strip comments in Vue code
     new webpack.DefinePlugin({
@@ -19,20 +29,19 @@ const config = merge(base, {
     // extract vendor chunks for better caching
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function (module) {
-        // a module is extracted into the vendor chunk if...
-        return (
-          // it's inside node_modules
-          /node_modules/.test(module.context) &&
-          // and not a CSS file (due to extract-text-webpack-plugin limitation)
-          !/\.css$/.test(module.request)
-        )
-      }
+      minChunks: Infinity,
+      filename: '[name].[chunkhash].js',
+
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
+      name: 'manifest',
+      filename: '[name].[chunkhash].js',
     }),
-    new VueSSRClientPlugin()
+    new LodashModuleReplacementPlugin({
+      'collections': true,
+      'paths': true
+    }),
+    new VueSSRClientPlugin(),
   ]
 })
 
